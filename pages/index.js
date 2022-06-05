@@ -1,8 +1,17 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { fetchData } from '../api/home'
 
-export default function Home() {
+export async function getStaticProps() {
+  const data = await fetchData()
+
+  return {
+    props: { pageData: data }
+  }
+}
+
+export default function Home({ pageData }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -64,6 +73,9 @@ export default function Home() {
           </span>
         </a>
       </footer>
+      <pre>
+        {JSON.stringify(pageData, null, 2)}
+      </pre>
     </div>
   )
 }
